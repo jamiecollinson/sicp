@@ -292,3 +292,37 @@ nil
    0.01))
 
 (cube-root 1.0 9)
+
+;; 1.1.8 Procedures as Black-Box Abstractions
+
+(defun sqrt (x)
+  (defun good-enough? (guess x)
+    (< (abs (- (square guess) x)) 0.001))
+  (defun improve (guess x)
+    (average guess (/ x guess)))
+  (defun sqrt-iter (guess x)
+    (if (good-enough? guess x)
+        guess
+      (sqrt-iter (improve guess x) x)))
+  (defun average (x y)
+    (/ (+ x y) 2))
+  (sqrt-iter 1.0 x))
+
+(sqrt 4)
+2.0000000929222947
+
+(defun sqrt (x)
+  (defun good-enough? (guess)
+    (< (abs (- (square guess) x)) 0.001))
+  (defun improve (guess)
+    (average guess (/ x guess)))
+  (defun sqrt-iter (guess)
+    (if (good-enough? guess)
+        guess
+      (sqrt-iter (improve guess))))
+  (defun average (x y)
+    (/ (+ x y) 2))
+  (sqrt-iter 1.0))
+
+(sqrt 16)
+4.000000636692939
