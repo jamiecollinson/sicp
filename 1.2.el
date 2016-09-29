@@ -23,3 +23,65 @@
 
 (factorial 6)
 720
+
+;; Exercise 1.9
+
+(defun + (a b)
+  (if (= a 0)
+      b
+    (1+ (+ (1- a) b))))
+
+(+ 4 5)
+(1+ (+ 3 5))
+(1+ (1+ (+ 2 5)))
+(1+ (1+ (1+ (+ 1 5))))
+(1+ (1+ (1+ (1+ (+ 0 5)))))
+(1+ (1+ (1+ (1+ 5))))
+(1+ (1+ (1+ 6)))
+(1+ (1+ 7))
+(1+ 8)
+9
+
+;; => linear recursive process
+
+(defun + (a b)
+  (if (= a 0)
+      b
+    (+ (1- a) (1+ b))))
+
+(+ 4 5)
+(+ 3 6)
+(+ 2 7)
+(+ 1 8)
+(+ 0 9)
+9
+
+;; => linear iterative process
+
+;; Exercise 1.10
+
+;; Ackermann's function
+(defun A (x y)
+  (cond ((= y 0) 0)
+        ((= x 0) (* 2 y))
+        ((= y 1) 2)
+        (t (A (- x 1)
+              (A x (- y 1))))))
+
+(A 1 10)
+1024
+(A 2 4)
+65536
+(A 3 3)
+65536
+
+(defun f (n) (A 0 n))
+;; => f(n) = 2*n
+
+(defun g (n) (A 1 n))
+;; => g(n) = 2^n
+
+(defun h (n) (A 2 n))
+;; => h(n) = ?
+
+;; 1.2.2 Tree Recursion
