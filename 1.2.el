@@ -230,9 +230,42 @@
 ;; Exercise 1.16
 
 (defun fast-expt (b n)
-  (defun fast-expt-iter (product counter)
-    (if (= counter n)
-        product
-      ;; FIXME
-      ))
-  (fast-expt-iter 1 0))
+  (defun square (x) (* x x))
+  (defun even? (x) (= (% x 2) 0))
+  (defun fast-expt-iter (b n a)
+    (cond ((= n 0) a)
+          ((even? n) (fast-expt-iter (square b) (/ n 2) a))
+          (t (fast-expt-iter b (- n 1) (* a b)))))
+  (fast-expt-iter b n 1))
+
+(fast-expt 5 5)
+3125
+
+;; Exercise 1.17
+
+(defun * (a b)
+  (if (= b 0)
+      0
+    (+ a (* a (- b 1)))))
+
+;; => O(b) steps
+
+(* 2 4)
+8
+
+;; Given 'double and 'halve design a multiplication procedure which is O(log b)
+
+(defun *-fast (a b)
+  (defun double (x) (* x 2))
+  (defun halve (x) (/ x 2))
+  (defun even? (x) (= (% x 2) 0))
+  (defun *-fast-iter (a b c)
+    (cond ((= b 1) (+ a c))
+          ((even? b) (*-fast-iter (double a) (halve b) c))
+          (t (*-fast-iter a (- b 1) (+ a c)))))
+  (*-fast-iter a b 0))
+
+(*-fast 2 2)
+4
+(*-fast 10 100)
+1000
