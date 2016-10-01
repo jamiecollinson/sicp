@@ -170,3 +170,21 @@
 ;; Exercise 1.13
 
 ;; Prove Fib(n) is the closest integer to (phi^n)/sqrt(5) where phi = (1 + sqrt(5))/2. HINT: let psi = (1-sqrt(5))/2 Use induction to prove that Fib(n) = (phi^n - psi^n)/sqrt(5)
+
+;; 1.2.3 Orders of Growth
+
+;; Exercise 1.14
+;; The count change procedure is O(n) (linear) in space
+;; It is O(n^k) (= O(n^5)) in number of steps
+
+;; Exercise 1.15
+
+(defun sine (angle)
+  (defun cube (x) (* x x x))
+  (defun p (x) (- (* 3 x) (* 3 (cube x))))
+  (if (< (abs angle) 0.1)
+      angle
+    (p (sine (/ angle 3.0)))))
+
+(sine 12.15)
+-1.0294553341885244
