@@ -106,3 +106,67 @@
 5
 
 ;; Example: Counting change
+
+(defun count-change (amount)
+  (defun first-denomination (kinds-of-coins)
+    (cond ((= kinds-of-coins 1) 1)
+          ((= kinds-of-coins 2) 5)
+          ((= kinds-of-coins 3) 10)
+          ((= kinds-of-coins 4) 25)
+          ((= kinds-of-coins 5) 50)))
+  (defun cc (amount kinds-of-coins)
+    (cond ((= amount 0) 1)
+          ((or (< amount 0) (= kinds-of-coins 0)) 0)
+          (t (+ (cc amount
+                    (- kinds-of-coins 1))
+                (cc (- amount
+                       (first-denomination kinds-of-coins))
+                    kinds-of-coins)))))
+  (cc amount 5))
+
+(count-change 100)
+292
+
+;; Exercise 1.11
+
+(defun f-recursive (n)
+  (if (< n 3) n
+    (+ (f-recursive (- n 1))
+       (* 2 (f-recursive (- n 2)))
+       (* 3 (f-recursive (- n 3))))))
+
+(mapcar 'f-recursive (number-sequence 1 20))
+(1 2 4 11 25 59 142 335 796 1892 4489 10661 ...)
+
+(defun f-iterative (n)
+  (defun f-iter (a b c count)
+    (if (= count n)
+        a
+      (f-iter (+ a (* 2 b) (* 3 c))
+              a
+              b
+              (+ count 1))))
+  (if (< n 3)
+      n
+    (f-iter 2 1 0 2)))
+
+(mapcar 'f-iterative (number-sequence 1 20))
+(1 2 4 11 25 59 142 335 796 1892 4489 10661 ...)
+
+;; Exercise 1.12
+
+(defun pascal (x y)
+  "Compute the number at row x and column y of pascal's triangle"
+  (cond ((= y 1) 1)
+        ((= y x) 1)
+        (t (+ (pascal (- x 1) (- y 1))
+              (pascal (- x 1) y)))))
+
+(pascal 1 1)
+1
+(pascal 5 3)
+6
+
+;; Exercise 1.13
+
+;; Prove Fib(n) is the closest integer to (phi^n)/sqrt(5) where phi = (1 + sqrt(5))/2. HINT: let psi = (1-sqrt(5))/2 Use induction to prove that Fib(n) = (phi^n - psi^n)/sqrt(5)
