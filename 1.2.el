@@ -188,3 +188,51 @@
 
 (sine 12.15)
 -1.0294553341885244
+
+;; 1.2.4 Exponentiation
+
+(defun expt (b n)
+  (if (= n 0)
+      1
+    (* b (expt b (- n 1)))))
+
+;; => O(n) steps and O(n) space
+
+(expt 10 2)
+100
+
+(defun expt (b n)
+  (defun expt-iter (counter product)
+    (if (= counter 0)
+        product
+      (expt-iter (- counter 1)
+                 (* product b))))
+  (expt-iter n 1))
+
+;; => O(n) steps and O(1) space
+
+(expt 10 2)
+100
+
+(defun fast-expt (b n)
+  (defun square (n) (* n n))
+  (defun even? (n)
+    (= (% n 2) 0))
+  (cond ((= n 0) 1)
+        ((even? n) (square (fast-expt b (/ n 2))))
+        (t (* b (fast-expt b (- n 1))))))
+
+;; => O(log n) steps
+
+(fast-expt 10 2)
+100
+
+;; Exercise 1.16
+
+(defun fast-expt (b n)
+  (defun fast-expt-iter (product counter)
+    (if (= counter n)
+        product
+      ;; FIXME
+      ))
+  (fast-expt-iter 1 0))
