@@ -304,3 +304,57 @@
   (fib-iter 1 0 0 1 n))
 
 (fib 20)
+
+;; 1.2.5 Greatest Common Divisors
+
+(defun gcd (a b)
+  (if (= b 0)
+      a
+    (gcd b (% a b))))
+
+(gcd 206 40)
+2
+
+;; Exercise 1.20
+
+;; Normal order
+(gcd 206 40)
+(gcd 40 (% 206 40))
+(gcd (% 206 40)
+     (% 40
+        (% 206 40)))
+...
+
+;; Applicative order
+(gcd 206 40)
+(gcd 40 (% 206 40))
+(gcd 40 6)
+(gcd 6 (% 40 6))
+(gcd 6 4)
+(gcd 4 (% 6 4))
+(gcd 4 2)
+(gcd 2 (% 4 2))
+(gcd 2 0)
+2
+;; => 4 remainder operations
+
+;; 1.2.6 Example: Testing for Primality
+
+(defun smallest-divisor (n)
+  (defun square (x) (* x x))
+  (defun divides? (a b)
+    (= (% b a) 0))
+  (defun find-divisor (n test-divisor)
+    (cond ((> (square test-divisor) n) n)
+          ((divides? test-divisor n) test-divisor)
+          (t (find-divisor n (+ test-divisor 1)))))
+  (find-divisor n 2))
+
+(smallest-divisor 10)
+2
+
+(defun prime? (n)
+  (= n (smallest-divisor n)))
+
+(mapcar 'prime? (number-sequence 2 15))
+(t t nil t nil t nil nil nil t nil t ...)
