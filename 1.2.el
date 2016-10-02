@@ -253,7 +253,22 @@
 (* 2 4)
 8
 
-;; Given 'double and 'halve design a multiplication procedure which is O(log b)
+(defun *-fast (a b)
+  (defun double (x) (* x 2))
+  (defun halve (x) (/ x 2))
+  (defun even? (x) (= (% x 2) 0))
+  (cond ((= b 0) 0)
+        ((= b 1) a)
+        ((even? b) (*-fast (double a) (halve b)))
+        (t (+ a (*-fast a (- b 1))))))
+
+;; => linear recursive process of O(log b)
+
+(*-fast 2 4)
+8
+
+;; Exercise 1.18
+;; Given 'double and 'halve design a multiplication procedure which is O(log b) and iterative
 
 (defun *-fast (a b)
   (defun double (x) (* x 2))
