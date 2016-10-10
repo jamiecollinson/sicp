@@ -358,3 +358,28 @@
 
 (mapcar 'prime? (number-sequence 2 15))
 (t t nil t nil t nil nil nil t nil t ...)
+
+;; The Fermat test
+
+(defun expmod (base exp m)
+  (defun even? (x) (= (% x 2) 0))
+  (defun square (x) (* x x))
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (% (square (expmod base (/ exp 2) m))
+            m))
+        (t
+         (% (* base (expmod base (- exp 1) m))
+            m))))
+
+(defun fermat-test (n)
+  (defun try-it (a)
+    (= (expmod a n n) a))
+  (try-it (+ 1 (random (- n 1)))))
+
+(defun fast-prime? (n times)
+  (cond ((= times 0) t)
+        ((fermat-test n) (fast-prime? n (- times 1)))
+        (t nil)))
+
+(fast-prime? 100 3)
