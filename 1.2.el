@@ -383,3 +383,4 @@
         (t nil)))
 
 (fast-prime? 100 3)
+nil
