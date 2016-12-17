@@ -56,3 +56,12 @@
 
 (* 8 (pi-sum 1 1000))
 3.139592655589783
+
+(defun integral (f a b dx)
+  (defun add-dx (x) (+ x dx))
+  (* (sum f (+ a (/ dx 2.0)) 'add-dx b)
+     dx))
+
+(integral 'cube 0 1 0.01)
+0.24998750000000042
+(integral 'cube 0 1 0.001)
