@@ -36,5 +36,23 @@
 (defun sum-cubes (a b)
   (sum 'cube a 'inc b))
 
-(sum-cubes 1 3)
-36
+(sum-cubes 1 10)
+3025
+
+(defun identity (x) x)
+
+(defun sum-integers (a b)
+  (sum 'identity a 'inc b))
+
+(sum-integers 1 10)
+55
+
+(defun pi-sum (a b)
+  (defun pi-term (x)
+    (/ 1.0 (* x (+ x 2))))
+  (defun pi-next (x)
+    (+ x 4))
+  (sum 'pi-term a 'pi-next b))
+
+(* 8 (pi-sum 1 1000))
+3.139592655589783
