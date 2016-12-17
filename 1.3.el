@@ -28,12 +28,13 @@
 (defun sum (term a next b)
   (if (> a b)
       0
-    (+ (term a)
-       (sum term (next a) next b))))
+    (+ (funcall term a)
+       (sum term (funcall next a) next b))))
 
 (defun inc (n) (+ n 1))
 (defun cube (n) (* n n n))
 (defun sum-cubes (a b)
-  (sum cube a inc b))
+  (sum 'cube a 'inc b))
 
 (sum-cubes 1 3)
+36
